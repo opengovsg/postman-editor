@@ -34,16 +34,15 @@ export const RichTextEditor = () => {
       Underline,
       Table.configure({
         resizable: false,
-      }),
-      TableRow,
-      TableHeader.configure({
         HTMLAttributes: {
-          style: 'border: 1px solid black;  border-collapse: collapse;',
+          style: 'border-collapse:collapse;',
         },
       }),
+      TableRow,
+      TableHeader,
       TableCell.configure({
         HTMLAttributes: {
-          style: 'border: 1px solid black;  border-collapse: collapse;',
+          style: 'border:1px solid black;',
         },
       }),
       Image.configure({
