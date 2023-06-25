@@ -26,17 +26,25 @@ export const SendModal = ({ onClose }: { onClose: () => void }) => {
     const sanitisedHTML = sanitiseHtml(rawHtml)
     try {
       setSendState('sending')
-      await fetch('https://api.postman.gov.sg/v1/transactional/email/send', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${postmanApiKey}`,
-        },
-        body: JSON.stringify({
-          subject,
-          body: sanitisedHTML,
-        }),
-      })
+      const response = await fetch(
+        'https://api.postman.gov.sg/v1/transactional/email/send',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${postmanApiKey}`,
+          },
+          body: JSON.stringify({
+            subject,
+            body: sanitisedHTML,
+            recipient,
+          }),
+        }
+      )
+      if (!response.ok) {
+        console.error(response)
+        throw new Error(response.statusText)
+      }
       setSendState('sent')
       setTimeout(() => setSendState('ready'), 2000)
     } catch (e) {
