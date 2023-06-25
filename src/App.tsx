@@ -1,21 +1,12 @@
 import './App.scss'
-import { useCallback, useState } from 'react'
-import pretty from 'pretty'
 
 import { RichTextEditor } from './components/RichTextEditor'
 import { CopyableTextArea } from './components/CopyableTextArea'
+import { EditorContextProvider } from './contexts/EditorContext'
 
 function App() {
-  const [richTextValue, setRichTextValue] = useState('')
-  const [rawHtml, setRawHtml] = useState('')
-
-  const onTextAreaChange = useCallback((newVal: string) => {
-    setRichTextValue(newVal)
-    setRawHtml(newVal)
-  }, [])
-
   return (
-    <>
+    <EditorContextProvider>
       <div className="banner">
         <a href="https://postman.gov.sg">
           <img height="40px" src="/postman.svg"></img>
@@ -24,16 +15,13 @@ function App() {
       </div>
       <div className="row">
         <div className="card">
-          <RichTextEditor
-            initialValue={richTextValue}
-            onChange={(newVal) => setRawHtml(pretty(newVal))}
-          />
+          <RichTextEditor />
         </div>
         <div className="card">
-          <CopyableTextArea value={rawHtml} onChange={onTextAreaChange} />
+          <CopyableTextArea />
         </div>
       </div>
-    </>
+    </EditorContextProvider>
   )
 }
 

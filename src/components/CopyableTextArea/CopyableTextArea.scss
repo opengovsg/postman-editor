@@ -18,6 +18,11 @@
     top: 0;
     width: calc(100% - 6px);
 
+    .button-group {
+      display: flex;
+      gap: 10px;
+    }
+
     .copyable-text-area-header-switch button {
       background: none;
       border: none;
@@ -36,14 +41,7 @@
     .copy-button {
       width: 6rem;
       padding: 5px;
-      border-radius: 0.3rem;
-      border: none;
-      font-size: 0.8em;
-      font-weight: 400;
-      font-family: inherit;
-      line-height: 1;
       background-color: #1a1a1a;
-      cursor: pointer;
       transition: border-color 0.25s;
 
       &:hover {

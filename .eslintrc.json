@@ -12,7 +12,12 @@
     "ecmaVersion": 2020, // Allows for the parsing of modern ECMAScript features
     "sourceType": "module" // Allows for the use of imports
   },
-  "ignorePatterns": ["node_modules/*", "vite.config.ts"],
+  "ignorePatterns": [
+    "node_modules/*",
+    "dist",
+    "vite.config.ts",
+    "tsconfig*.json"
+  ],
   "rules": {
     // Place to specify ESLint rules. Can be used to overwrite rules specified from the extended configs
     "@typescript-eslint/explicit-function-return-type": "off",

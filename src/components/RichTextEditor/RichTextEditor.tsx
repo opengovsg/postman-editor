@@ -1,6 +1,7 @@
 import './RichTextEditor.scss'
 
-import { useEffect } from 'react'
+import { useCallback, useContext, useEffect } from 'react'
+import pretty from 'pretty'
 import { EditorContent, useEditor } from '@tiptap/react'
 import Link from '@tiptap/extension-link'
 import StarterKit from '@tiptap/starter-kit'
@@ -12,15 +13,17 @@ import TableRow from '@tiptap/extension-table-row'
 import Image from '@tiptap/extension-image'
 
 import { MenuBar } from './RichTextMenuBar'
+import { EditorContext } from '../../contexts/EditorContext'
 
-interface RichTextEditorProps {
-  value?: string
-  initialValue?: string
-  onChange?: (value: string) => void
-}
+export const RichTextEditor = () => {
+  const { richTextValue: initialValue, setRawHtml } = useContext(EditorContext)
 
-export const RichTextEditor: React.FC<RichTextEditorProps> = (props) => {
-  const { initialValue, onChange } = props
+  const onChange = useCallback(
+    (newVal: string) => {
+      setRawHtml(pretty(newVal))
+    },
+    [setRawHtml]
+  )
 
   const editor = useEditor({
     extensions: [
@@ -33,8 +36,16 @@ export const RichTextEditor: React.FC<RichTextEditorProps> = (props) => {
         resizable: false,
       }),
       TableRow,
-      TableHeader,
-      TableCell,
+      TableHeader.configure({
+        HTMLAttributes: {
+          style: 'border: 1px solid black;  border-collapse: collapse;',
+        },
+      }),
+      TableCell.configure({
+        HTMLAttributes: {
+          style: 'border: 1px solid black;  border-collapse: collapse;',
+        },
+      }),
       Image.configure({
         inline: true,
         HTMLAttributes: {
@@ -44,7 +55,7 @@ export const RichTextEditor: React.FC<RichTextEditorProps> = (props) => {
     ],
     content: initialValue,
     onUpdate: ({ editor }) => {
-      onChange?.(editor.getHTML())
+      onChange(editor.getHTML())
     },
   })
 

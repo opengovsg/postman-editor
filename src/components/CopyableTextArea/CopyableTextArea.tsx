@@ -1,18 +1,25 @@
 import './CopyableTextArea.scss'
 
-import { useState } from 'react'
+import { useCallback, useContext, useState } from 'react'
 import ReactDiffViewer from 'react-diff-viewer'
 import { sanitiseHtml } from '../../utils/sanitiseHtml'
+import { SendButton } from './SendButton'
+import { EditorContext } from '../../contexts/EditorContext'
 
-interface CopyableTextAreaProps {
-  value: string
-  onChange: (value: string) => void
-}
+export const CopyableTextArea = () => {
+  const {
+    rawHtml: value,
+    setRichTextValue,
+    setRawHtml,
+  } = useContext(EditorContext)
+  const onChange = useCallback(
+    (newVal: string) => {
+      setRichTextValue(newVal)
+      setRawHtml(newVal)
+    },
+    [setRawHtml, setRichTextValue]
+  )
 
-export const CopyableTextArea = ({
-  value,
-  onChange,
-}: CopyableTextAreaProps) => {
   const [copied, setCopied] = useState(false)
   const [isDiffView, setIsDiffView] = useState(false)
 
@@ -40,12 +47,15 @@ export const CopyableTextArea = ({
             Sanitised HTML
           </button>
         </div>
-        <button
-          className={`copy-button ${copied ? 'copied' : ''}`}
-          onClick={onCopy}
-        >
-          {copied ? 'Copied!' : 'Copy'}
-        </button>
+        <div className="button-group">
+          <button
+            className={`copy-button ${copied ? 'copied' : ''}`}
+            onClick={onCopy}
+          >
+            {copied ? 'Copied!' : 'Copy'}
+          </button>
+          <SendButton />
+        </div>
       </div>
       {!isDiffView ? (
         <textarea
