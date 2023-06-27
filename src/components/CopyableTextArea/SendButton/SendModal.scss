@@ -24,13 +24,13 @@
   }
 
   .modal-input {
-    border-radius: 0.2rem;
     background: #0d0d0dcb;
     outline: none;
     border: none;
     width: 20rem;
-    padding: 0.5rem 1rem;
+    padding: 0.5rem 0;
     margin-bottom: 1rem;
+    border-bottom: 1px solid white;
   }
 
   .modal-button {
